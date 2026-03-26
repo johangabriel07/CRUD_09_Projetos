@@ -3,7 +3,10 @@ package com.johan.projetos.controllers;
 import com.johan.projetos.models.ProjetoModel;
 import com.johan.projetos.services.ProjetoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,16 +16,32 @@ public class ProjetoController {
 
     @Autowired
     private ProjetoService projetoService;
-
     @PostMapping
-    public ProjetoModel criarProjeto(@RequestBody ProjetoModel projeto) { return projetoService.criarProjeto(projeto); }
+    public ResponseEntity<ProjetoModel> criarProjeto(@RequestBody ProjetoModel projetoModel){
+
+        ProjetoModel request = projetoService.criarProjeto(projetoModel);
+
+        URI uri = URI.create("/projetos/" + request.getId());
+        return ResponseEntity.created(uri).body(request);
+    }
+
 
     @GetMapping
-    public List<ProjetoModel> listarProjetos() { return projetoService.findAll(); }
-
-    @GetMapping("/{id}")
-    public Optional<ProjetoModel> buscarProjetoPorId(@PathVariable Long id) { return projetoService.buscarProjetoPorId(id); }
+    public ResponseEntity<List<ProjetoModel>> findAll(){
+        List<ProjetoModel> request = projetoService.findAll();
+        return ResponseEntity.ok().body(request);
+    }
 
     @DeleteMapping("/{id}")
-    public void deletarProjeto(@PathVariable Long id) { projetoService.deletarProjeto(id); }
+    public ResponseEntity<Void> deletarProjeto(@PathVariable Long id){
+        projetoService.deletarProjeto(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public void buscarProjetoPorId(@PathVariable Long id){
+        projetoService.buscarProjetoPorId(id);
+
+    }
+
 }

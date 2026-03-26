@@ -20,6 +20,10 @@ public class ProjetoModel {
     @Column(name = "data_fim")
     private LocalDate dataFim;
 
+
+    public ProjetoModel() {
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getNome() { return nome; }
