@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/projetos")
+@RequestMapping(path = "/projetos")
 public class ProjetoController {
 
     @Autowired
